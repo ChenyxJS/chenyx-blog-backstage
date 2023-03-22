@@ -2,10 +2,11 @@
  * @Author: chenyx
  * @Date: 2023-03-01 13:44:35
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-13 16:23:22
+ * @LastEditTime: 2023-03-23 00:44:29
  * @FilePath: /backstage-manage/src/utils/request.ts
  */
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import Qs from 'qs';
 import { getToken } from './cookie-token';
 import { useUserStoreHook } from '@/store/modules/user';
 
@@ -13,7 +14,12 @@ import { useUserStoreHook } from '@/store/modules/user';
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
   timeout: 50000,
-  headers: { 'Content-Type': 'application/json;charset=utf-8' }
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+  transformRequest: [
+    function (data) {
+      return Qs.stringify(data);
+    }
+  ]
 });
 
 // 请求拦截器
@@ -44,7 +50,7 @@ service.interceptors.response.use(
     } else {
       return response;
     }
-    return response
+    return response;
   },
   error => {
     return Promise.reject(error);

@@ -1,3 +1,10 @@
+/*
+ * @Author: chenyx
+ * @Date: 2023-03-01 13:44:35
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2023-03-22 14:00:31
+ * @FilePath: /backstage-manage/src/store/modules/permission.ts
+ */
 import { RouteRecordRaw } from 'vue-router';
 import { defineStore } from 'pinia';
 import { constantRoutes } from '@/router';
@@ -59,20 +66,25 @@ export const usePermissionStore = defineStore('permission', () => {
     routes.value = constantRoutes.concat(newRoutes);
   }
 
-  function generateRoutes(roles: string[]) {
-    return new Promise<RouteRecordRaw[]>((resolve, reject) => {
-      listRoutes()
-        .then(response => {
-          const asyncRoutes = response.data;
-          const accessedRoutes = filterAsyncRoutes(asyncRoutes, roles);
-          setRoutes(accessedRoutes);
-          resolve(accessedRoutes);
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
+  function generateRoutes() {
+    setRoutes([]);
+    return constantRoutes;
   }
+
+  // function generateRoutes(roles: string[]) {
+  //   return new Promise<RouteRecordRaw[]>((resolve, reject) => {
+  //     listRoutes()
+  //       .then(response => {
+  //         const asyncRoutes = response.data;
+  //         const accessedRoutes = filterAsyncRoutes(asyncRoutes, roles);
+  //         setRoutes(accessedRoutes);
+  //         resolve(accessedRoutes);
+  //       })
+  //       .catch(error => {
+  //         reject(error);
+  //       });
+  //   });
+  // }
   return { routes, setRoutes, generateRoutes };
 });
 

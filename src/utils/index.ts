@@ -1,3 +1,10 @@
+/*
+ * @Author: chenyx
+ * @Date: 2023-03-01 13:44:35
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2023-03-22 18:24:15
+ * @FilePath: /backstage-manage/src/utils/index.ts
+ */
 /**
  * Check if an element has a class
  * @param {HTMLElement} elm
@@ -44,4 +51,39 @@ export function mix(color1: string, color2: string, weight: number) {
   const gStr = ('0' + (g || 0).toString(16)).slice(-2);
   const bStr = ('0' + (b || 0).toString(16)).slice(-2);
   return '#' + rStr + gStr + bStr;
+}
+
+/**
+ * @Descripttion: 格式化时间
+ * @msg:
+ * @param {Date} num
+ * @param {String} format
+ * @return {*}
+ */
+export function formatDate(num: string, format: string) {
+  format = format || "yyyy-MM-dd hh:mm:ss"; //格式参数不填时，使用默认格式
+  let ret, date, renum;
+  // 处理时间戳，js一般获取的时间戳是13位，PHP一般是10位,根据实际情况做判断处理
+  if (num.toString().length == 10) {
+    date = new Date(parseInt(num) * 1000);
+  } else {
+    date = new Date(parseInt(num));
+  }
+  const opt = {
+    y: date.getFullYear().toString(), // 年
+    M: (date.getMonth() + 1).toString(), // 月
+    d: date.getDate().toString(), // 日
+    h: date.getHours().toString(), // 时
+    m: date.getMinutes().toString(), // 分
+    s: date.getSeconds().toString(), // 秒
+    // 目前用的是这六种符号,有其他格式化字符需求可以继续添加，值必须转化成字符串
+  };
+  for (var k in opt) {
+    ret = new RegExp("(" + k + "+)").exec(format);
+    if (ret) {
+      renum = ret[1].length == 1 ? opt[k] : opt[k].padStart(ret[1].length, "0"); //根据复数前面是否补零,如“mm”补零，单“m”前面不补零
+      format = format.replace(ret[1], renum); //替换
+    }
+  }
+  return format;
 }
