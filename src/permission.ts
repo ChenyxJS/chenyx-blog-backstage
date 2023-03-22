@@ -21,15 +21,19 @@ router.beforeEach(async (to, from, next) => {
       next({ path: '/' });
       NProgress.done();
     } else {
+      // 判断该用户是否已经角色权限信息
       const hasGetUserInfo = userStore.roles.length > 0;
       if (hasGetUserInfo) {
+        // 判断跳转的页面路径是否有后缀
         if (to.matched.length === 0) {
+          // 若存在该路由则跳转至该页面，否则跳转至401页面
           from.name ? next({ name: from.name as any }) : next('/401');
         } else {
           next();
         }
       } else {
         try {
+          // 获取角色信息并生成对应的权限路由
           const { roles } = await userStore.getInfo();
           const accessRoutes: RouteRecordRaw[] =
             await permissionStore.generateRoutes(roles);

@@ -8,6 +8,7 @@ import { store } from '@/store';
 import { LoginData } from '@/api/auth/types';
 import { ref } from 'vue';
 import { UserInfo } from '@/api/user/types';
+import { AxiosPromise, AxiosResponse } from 'axios';
 
 export const useUserStore = defineStore('user', () => {
   // state
@@ -23,10 +24,12 @@ export const useUserStore = defineStore('user', () => {
   function login(loginData: LoginData) {
     return new Promise<void>((resolve, reject) => {
       loginApi(loginData)
-        .then(response => {
-          const { accessToken } = response.data;
-          token.value = accessToken;
-          setToken(accessToken);
+        .then((res: AxiosResponse<ApiResult>) => {
+          const data = res.data as ApiResult;
+          const { userId, userNickname, userHeadImg } = data.object;
+          setInfo(userNickname, userHeadImg);
+          token.value = userId;
+          setToken(userId);
           resolve();
         })
         .catch(error => {
@@ -71,6 +74,12 @@ export const useUserStore = defineStore('user', () => {
           reject(error);
         });
     });
+  }
+
+  // 设置用户信息
+  function setInfo(name: string, img: string) {
+    nickname.value = name;
+    avatar.value = img;
   }
 
   // 重置

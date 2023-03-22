@@ -1,3 +1,10 @@
+/*
+ * @Author: chenyx
+ * @Date: 2023-03-01 13:44:35
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2023-03-01 21:02:55
+ * @FilePath: /backstage-manage/src/lang/en.ts
+ */
 export default {
   // 路由国际化
   route: {
@@ -6,7 +13,7 @@ export default {
   },
   // 登录页面国际化
   login: {
-    title: 'vue3-element-admin',
+    title: 'manage-system',
     username: 'Username',
     password: 'Password',
     login: 'Login',

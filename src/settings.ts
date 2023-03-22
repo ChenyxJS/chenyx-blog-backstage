@@ -1,3 +1,10 @@
+/*
+ * @Author: chenyx
+ * @Date: 2023-03-01 13:44:35
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2023-03-01 20:43:24
+ * @FilePath: /backstage-manage/src/settings.ts
+ */
 interface DefaultSettings {
   title: string;
   showSettings: boolean;
@@ -10,7 +17,7 @@ interface DefaultSettings {
 }
 
 const defaultSettings: DefaultSettings = {
-  title: 'vue3-element-admin',
+  title: '后台管理',
   showSettings: true,
   tagsView: true,
   fixedHeader: false,

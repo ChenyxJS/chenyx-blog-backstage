@@ -66,16 +66,6 @@
         @click.prevent="handleLogin"
         >{{ $t('login.login') }}
       </el-button>
-
-      <!-- 账号密码提示 -->
-      <div class="tips">
-        <div style="position: relative">
-          <span style="margin-right: 20px"
-            >{{ $t('login.username') }}: admin</span
-          >
-          <span> {{ $t('login.password') }}: 123456</span>
-        </div>
-      </div>
     </el-form>
 
     <div v-if="showCopyright == true" class="copyright">
@@ -171,6 +161,7 @@ function handleLogin() {
       userStore
         .login(state.loginData)
         .then(() => {
+          console.log('this login');
           router.push({ path: state.redirect || '/', query: state.otherQuery });
           state.loading = false;
         })
