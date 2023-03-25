@@ -24,8 +24,8 @@ export const useUserStore = defineStore('user', () => {
   function login(loginData: LoginData) {
     return new Promise<void>((resolve, reject) => {
       loginApi(loginData)
-        .then((res: AxiosResponse<ApiResult>) => {
-          const data = res.data as ApiResult;
+        .then((res: AxiosResponse<BaseApiResult>) => {
+          const data = res.data as BaseApiResult;
           const { userId, userNickname, userHeadImg } = data.object;
           setInfo(userNickname, userHeadImg);
           token.value = userId;

@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-01 13:44:35
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-25 17:07:07
+ * @LastEditTime: 2023-03-25 21:27:32
  * @FilePath: /backstage-manage/src/utils/index.ts
  */
 /**
@@ -69,7 +69,7 @@ export function formatDate(num: string, format?: string) :string {
   } else {
     date = new Date(parseInt(num));
   }
-  const opt = {
+  const opt:any = {
     y: date.getFullYear().toString(), // 年
     M: (date.getMonth() + 1).toString(), // 月
     d: date.getDate().toString(), // 日

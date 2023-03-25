@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-01 13:44:35
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-13 17:17:48
+ * @LastEditTime: 2023-03-25 21:45:09
  * @FilePath: /backstage-manage/src/api/auth/index.ts
  */
 import request from '@/utils/request';
@@ -14,7 +14,7 @@ import { LoginData, TokenResult, VerifyCode } from './types';
  * @param data {LoginForm}
  * @returns
  */
-export function loginApi(data: LoginData): AxiosPromise<ApiResult> {
+export function loginApi(data: LoginData): AxiosPromise<BaseApiResult> {
   return request({
     url: '/api/admin/login',
     method: 'post',
