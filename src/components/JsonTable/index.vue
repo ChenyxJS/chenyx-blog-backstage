@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-22 15:25:23
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-22 20:10:59
+ * @LastEditTime: 2023-03-25 17:50:38
  * @FilePath: /backstage-manage/src/components/JsonTable/index.vue
 -->
 <template>
@@ -45,11 +45,17 @@
               col.enumData[scope.row[col.prop]]
             }}</span>
             <el-image
-              v-else-if="col.type === FieldType.url"
+              v-else-if="col.type === FieldType.image"
               style="width: 100px; height: 100px"
               :src="scope.row[col.prop]"
               fit="contain"
             ></el-image>
+            <a
+              v-else-if="col.type === FieldType.url"
+              :href="scope.row[col.prop]"
+              target="_blank"
+              >{{ scope.row[col.prop] }}</a
+            >
             <span v-else-if="!col.slot">{{ scope.row[col.prop] }}</span>
             <slot v-else :name="col.prop" :rowData="{ scope }"></slot>
           </template>

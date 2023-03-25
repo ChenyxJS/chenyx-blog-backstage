@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-01 13:44:35
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-22 23:38:05
+ * @LastEditTime: 2023-03-23 11:09:34
  * @FilePath: /backstage-manage/src/api/file/index.ts
  */
 import request from '@/utils/request';

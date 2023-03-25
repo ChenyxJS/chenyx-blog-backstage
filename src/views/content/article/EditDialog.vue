@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-22 20:44:05
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-23 00:45:52
+ * @LastEditTime: 2023-03-25 20:00:34
  * @FilePath: /backstage-manage/src/views/content/article/EditDialog.vue
 -->
 <template>
@@ -27,6 +27,37 @@
           placeholder="请输入"
         ></el-input>
       </el-form-item>
+      <el-form-item label="文章概述" prop="articleDesc" style="width: 100%">
+        <el-input
+          v-model="state.form.articleDesc"
+          placeholder="请输入"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="文章类型" prop="articleType" style="width: 50%">
+        <el-select
+          v-model="state.form.articleType"
+          placeholder="请选择文章类型"
+        >
+          <el-option
+            v-for="item in state.typeOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item
+        label="创建时间"
+        prop="articleCreateTime"
+        style="width: 50%"
+      >
+        <el-date-picker
+          v-model="state.createTime"
+          type="datetime"
+          value-format="YYYY-MM-DD HH:mm:ss"
+          placeholder="请选择文章创建时间"
+        />
+      </el-form-item>
       <el-form-item label="文档">
         <upload @update:model-value="changeUrl"></upload>
       </el-form-item>
@@ -46,10 +77,11 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref, watch, defineEmits } from 'vue';
-import { Article } from '@/api/article/types';
+import { Article, ArticleType } from '@/api/article/types';
 import { ElMessage, FormInstance, FormRules } from 'element-plus';
 import upload from '@/components/Upload/Upload.vue';
-import { updateArticle } from '@/api/article';
+import { updateArticle, addArticle } from '@/api/article';
+import { formatDate } from '@/utils';
 
 // state
 const props = defineProps({
@@ -62,7 +94,7 @@ const props = defineProps({
     default: false
   }
 });
-const emit = defineEmits(['dialogClose']);
+const emit = defineEmits(['dialogClose', 'refresh']);
 const formRef = ref<FormInstance>();
 const state = reactive({
   isVisible: props.isVisible,
@@ -72,12 +104,24 @@ const state = reactive({
     }
   } as FormRules,
   form: props.form as Article,
+  createTime: '',
+  typeOptions: [
+    {
+      value: 'origin',
+      label: ArticleType.origin
+    },
+    {
+      value: 'reprint',
+      label: ArticleType.reprint
+    }
+  ] as OptionType[],
   submitting: false
 });
 watch(
   () => props.form as Article,
   (newValue, oldValue) => {
     state.form = newValue;
+    state.createTime = formatDate(String(props.form.articleCreateTime));
   }
 );
 watch(
@@ -86,6 +130,11 @@ watch(
     state.isVisible = newValue;
   }
 );
+
+const isEdit = computed(() => {
+  return state.form.articleId ? true : false;
+});
+
 const dialogTitle = computed(() => {
   return state.form.articleId ? '编辑' : '创建';
 });
@@ -100,19 +149,32 @@ function dialogClose() {
   emit('dialogClose');
   resetForm(formRef.value);
 }
-function changeUrl(url:string){
-    state.form.articleUrl = url;
+function changeUrl(url: string) {
+  state.form.articleUrl = url;
 }
 
 function submitClick() {
-    updateArticle({
-        articleId: state.form.articleId,
-        articleUrl: state.form.articleUrl
-    } as Article).then(({data}) => {
-        if(data.success){
-            ElMessage.success('修改成功')
-        }
-    })
+  let commitData = state.form;
+  commitData.articleCreateTime = state.createTime;
+  if (isEdit.value) {
+    updateArticle(commitData).then(({ data }) => {
+      if (data.success) {
+        ElMessage.success('修改成功');
+        emit('refresh');
+        dialogClose();
+      }
+    });
+  } else {
+    addArticle(commitData).then(({ data }) => {
+      if (data.success) {
+        ElMessage.success('操作成功');
+        emit('refresh');
+        dialogClose();
+      } else {
+        ElMessage.error(data.failReasonShow);
+      }
+    });
+  }
 }
 </script>
 

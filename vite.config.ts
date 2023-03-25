@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-01 13:44:35
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-01 21:46:20
+ * @LastEditTime: 2023-03-23 11:08:30
  * @FilePath: /backstage-manage/vite.config.ts
  */
 import { UserConfig, ConfigEnv, loadEnv } from 'vite';
@@ -33,9 +33,9 @@ export default ({ mode }: ConfigEnv): UserConfig => {
       proxy: {
         [env.VITE_APP_BASE_API]: {
           // 线上API地址
-          // target: 'http://vapi.youlai.tech',
+          target: 'http://www.chenyx.site:8080',
           // 本地API地址
-          target: 'http://localhost:8080',
+          // target: 'http://localhost:8080',
           changeOrigin: true,
           rewrite: path => path.replace(new RegExp('^' + env.VITE_APP_BASE_API), '')
         }

@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-01 13:44:35
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-22 18:24:15
+ * @LastEditTime: 2023-03-25 17:07:07
  * @FilePath: /backstage-manage/src/utils/index.ts
  */
 /**
@@ -60,7 +60,7 @@ export function mix(color1: string, color2: string, weight: number) {
  * @param {String} format
  * @return {*}
  */
-export function formatDate(num: string, format: string) {
+export function formatDate(num: string, format?: string) :string {
   format = format || "yyyy-MM-dd hh:mm:ss"; //格式参数不填时，使用默认格式
   let ret, date, renum;
   // 处理时间戳，js一般获取的时间戳是13位，PHP一般是10位,根据实际情况做判断处理
