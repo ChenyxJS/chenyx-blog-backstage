@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-22 15:43:28
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-25 18:49:40
+ * @LastEditTime: 2023-03-29 00:11:21
  * @FilePath: /backstage-manage/src/api/article/index.ts
  */
 import request from '@/utils/request';
@@ -13,8 +13,8 @@ export function getArticleList(
   data?: ArticleQuery
 ): AxiosPromise<PageResult<Article>> {
   return request({
-    url: '/web/article/all',
-    method: 'GET',
+    url: '/admin/article/selectByExample',
+    method: 'POST',
     params: data
   });
 }

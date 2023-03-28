@@ -67,7 +67,7 @@ const state = reactive({
     page: 1,
     limit: 10,
     keywords: '',
-    articleType: ''
+    articleTagId: 0
   } as ArticleQuery,
   page: {
     page: 1,
