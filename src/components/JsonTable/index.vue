@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-22 15:25:23
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-25 17:50:38
+ * @LastEditTime: 2023-03-28 20:00:01
  * @FilePath: /backstage-manage/src/components/JsonTable/index.vue
 -->
 <template>
@@ -127,6 +127,7 @@ const rowClick = (row: any) => {};
     display: flex;
     justify-content: flex-end;
     height: 40px;
+    margin-right: 20px;
   }
 }
 </style>

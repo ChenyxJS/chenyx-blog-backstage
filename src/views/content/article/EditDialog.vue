@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-22 20:44:05
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-25 20:00:34
+ * @LastEditTime: 2023-03-28 20:45:29
  * @FilePath: /backstage-manage/src/views/content/article/EditDialog.vue
 -->
 <template>
@@ -46,10 +46,23 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="文章标签" prop="articleTagId" style="width: 50%">
+        <el-select
+          v-model="state.form.articleTagId"
+          placeholder="请选择文章类型"
+        >
+          <el-option
+            v-for="item in state.tagOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item
         label="创建时间"
         prop="articleCreateTime"
-        style="width: 50%"
+        style="width: 100%"
       >
         <el-date-picker
           v-model="state.createTime"
@@ -76,12 +89,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, watch, defineEmits } from 'vue';
+import { computed, reactive, ref, watch, defineEmits, onMounted } from 'vue';
 import { Article, ArticleType } from '@/api/article/types';
 import { ElMessage, FormInstance, FormRules } from 'element-plus';
 import upload from '@/components/Upload/Upload.vue';
 import { updateArticle, addArticle } from '@/api/article';
+import { getTagList } from '@/api/tag/index';
 import { formatDate } from '@/utils';
+import { Tag, TagQuery } from '@/api/tag/types';
 
 // state
 const props = defineProps({
@@ -115,6 +130,7 @@ const state = reactive({
       label: ArticleType.reprint
     }
   ] as OptionType[],
+  tagOptions: [] as OptionType[],
   submitting: false
 });
 watch(
@@ -138,12 +154,37 @@ const isEdit = computed(() => {
 const dialogTitle = computed(() => {
   return state.form.articleId ? '编辑' : '创建';
 });
-const resetForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.resetFields();
-};
+
+onMounted(() => {
+  // 获取tag列表
+  getTagList({
+    page: 1,
+    limit: 0
+  } as TagQuery).then(({ data }) => {
+    if (data.success) {
+      state.tagOptions = generateTag(data.root);
+    }
+  });
+});
 
 // function
+
+function generateTag(tags: Tag[]): OptionType[] {
+  let list = [] as OptionType[];
+  tags.forEach(tag => {
+    list.push({
+      value: tag.tagId,
+      label: tag.tagName
+    } as OptionType);
+  });
+  return list;
+}
+
+function resetForm(formEl: FormInstance | undefined) {
+  if (!formEl) return;
+  formEl.resetFields();
+}
+
 function dialogClose() {
   state.isVisible = false;
   emit('dialogClose');
@@ -156,6 +197,7 @@ function changeUrl(url: string) {
 function submitClick() {
   let commitData = state.form;
   commitData.articleCreateTime = state.createTime;
+  delete commitData.articleUpdateTime;
   if (isEdit.value) {
     updateArticle(commitData).then(({ data }) => {
       if (data.success) {

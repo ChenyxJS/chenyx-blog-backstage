@@ -1,3 +1,10 @@
+/*
+ * @Author: chenyx
+ * @Date: 2023-03-01 13:44:35
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2023-03-28 20:13:41
+ * @FilePath: /backstage-manage/types/global.d.ts
+ */
 declare global {
   interface BaseApiResult {
     // 请求是否成功
@@ -29,7 +36,7 @@ declare global {
   };
 
   type OptionType = {
-    value: string;
+    value: string|number;
     label: string;
     checked?: boolean;
     children?: OptionType[];

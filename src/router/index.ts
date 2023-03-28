@@ -1,3 +1,10 @@
+/*
+ * @Author: chenyx
+ * @Date: 2023-03-01 13:44:35
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2023-03-28 19:40:38
+ * @FilePath: /backstage-manage/src/router/index.ts
+ */
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import { usePermissionStoreHook } from '@/store/modules/permission';
 
@@ -50,8 +57,14 @@ export const constantRoutes: RouteRecordRaw[] = [
     component: Layout,
     redirect:'/content/article',
     name: 'Content',
-    meta: { title: '内容管理' },
+    meta: { title: '内容管理', icon: 'homepage', affix: true },
     children: [
+      {
+        path: 'tag',
+        component: () => import('@/views/content/tag/index.vue'),
+        name: 'tag',
+        meta: { title: '标签管理', icon: 'homepage', affix: true }
+      },
       {
         path: 'article',
         component: () => import('@/views/content/article/index.vue'),

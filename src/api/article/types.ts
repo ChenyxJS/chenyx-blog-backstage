@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-22 15:43:34
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-25 16:45:15
+ * @LastEditTime: 2023-03-28 20:44:10
  * @FilePath: /backstage-manage/src/api/article/types.ts
  */
 export interface Article {
@@ -12,6 +12,8 @@ export interface Article {
   articleType: string;
   articleUrl: string;
   articleCreateTime: string;
+  articleTagId: number;
+  articleUpdateTime?:string;
 }
 
 export enum ArticleType {
