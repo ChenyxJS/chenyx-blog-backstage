@@ -2,10 +2,10 @@
  * @Author: chenyx
  * @Date: 2023-03-01 13:44:35
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-28 19:40:38
+ * @LastEditTime: 2023-03-30 03:18:12
  * @FilePath: /backstage-manage/src/router/index.ts
  */
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { usePermissionStoreHook } from '@/store/modules/permission';
 
 export const Layout = () => import('@/layout/index.vue');
@@ -76,9 +76,14 @@ export const constantRoutes: RouteRecordRaw[] = [
 
 ];
 
+// 开发环境使用hash 生产环境使用web
+const history =
+  import.meta.env.PROD
+    ? createWebHistory()
+    : createWebHashHistory();
 // 创建路由
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: history,
   routes: constantRoutes as RouteRecordRaw[],
   // 刷新时，滚动条位置还原
   scrollBehavior: () => ({ left: 0, top: 0 })

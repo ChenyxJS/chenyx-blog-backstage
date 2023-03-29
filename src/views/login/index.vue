@@ -100,8 +100,8 @@ const passwordRef = ref(ElInput);
 const state = reactive({
   redirect: '',
   loginData: {
-    username: 'admin',
-    password: '123456'
+    username: '',
+    password: ''
   } as LoginData,
   loginRules: {
     username: [{ required: true, trigger: 'blur' }],
