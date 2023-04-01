@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-22 23:22:37
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-25 21:42:12
+ * @LastEditTime: 2023-04-01 14:59:04
  * @FilePath: /backstage-manage/src/components/Upload/Upload.vue
 -->
 <template>
@@ -10,24 +10,22 @@
   <el-upload
     class="single-uploader"
     :show-file-list="false"
-    list-type="picture-card"
     :action="state.actionUrl"
     :data="state.postData"
     :on-success="handleAvatarSuccess"
     :before-upload="beforeAvatarUpload"
   >
-    <el-icon class="single-uploader-icon"><Plus /></el-icon>
+    <el-icon v-if="!modelValue" class="single-uploader-icon"><Plus /></el-icon>
+    
   </el-upload>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { Plus } from '@element-plus/icons-vue';
 import {
   ElMessage,
   ElUpload,
-  UploadRawFile,
-  UploadRequestOptions
 } from 'element-plus';
 import { getToken, getHttp } from '@/api/file';
 
@@ -42,7 +40,8 @@ const props = defineProps({
   modelValue: {
     type: String,
     default: ''
-  }
+  },
+
 });
 
 const state = reactive({
@@ -89,6 +88,7 @@ function handleAvatarSuccess(res: any) {
   //上传成功后在图片框显示图片
   state.resultUrl = state.domain + '/' + res.key;
   emit('update:modelValue', state.resultUrl);
+  ElMessage.success('文件上传成功')
 }
 // function handleError(res) {
 //   //显示错误
