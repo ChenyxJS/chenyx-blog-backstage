@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-22 15:25:23
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-28 20:00:01
+ * @LastEditTime: 2023-04-01 16:54:04
  * @FilePath: /backstage-manage/src/components/JsonTable/index.vue
 -->
 <template>
@@ -84,6 +84,8 @@ import { reactive } from 'vue';
 import { TableHeader, FieldType } from './types';
 import { formatDate } from '@/utils/index';
 
+const emit = defineEmits(['current-change'])
+
 const props = defineProps({
   tableData: {
     type: Array,
@@ -104,10 +106,14 @@ const props = defineProps({
 });
 
 // state
-const state = reactive({});
+const state = reactive({
+  page:props.page
+});
 
 // function
-const onCurrentPageChange = () => {};
+const onCurrentPageChange = () => {
+  emit('current-change')
+};
 const rowClick = (row: any) => {};
 </script>
 

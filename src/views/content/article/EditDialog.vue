@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-22 20:44:05
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-28 20:45:29
+ * @LastEditTime: 2023-04-01 16:37:48
  * @FilePath: /backstage-manage/src/views/content/article/EditDialog.vue
 -->
 <template>
@@ -72,7 +72,7 @@
         />
       </el-form-item>
       <el-form-item label="文档">
-        <upload @update:model-value="changeUrl"></upload>
+        <upload :model-value="state.form.articleUrl" @update:model-value="changeUrl"></upload>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">

@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-22 13:24:37
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-25 19:08:37
+ * @LastEditTime: 2023-04-01 16:58:59
  * @FilePath: /backstage-manage/src/views/content/article/index.vue
 -->
 <template>
@@ -19,7 +19,7 @@
 
         <el-form-item>
           <el-button @click="getData">查 询</el-button>
-          <el-button type="primary" @click.native="doAdd()" >新 增</el-button>
+          <el-button type="primary" @click.native="doAdd()">新 增</el-button>
         </el-form-item>
       </el-form>
     </json-filter>
@@ -28,6 +28,7 @@
       :table-data="state.articleList"
       :table-heads="state.tableHeads"
       :page="state.page"
+      @current-change="currentChange"
     >
       <template #operations="iData">
         <el-button
@@ -113,6 +114,12 @@ const state = reactive({
 onMounted(() => {
   getData();
 });
+
+function currentChange(page: any) {
+  state.pageQuery.page = page.page;
+  state.pageQuery.limit = page.limit;
+  getData()
+}
 
 // function
 /**

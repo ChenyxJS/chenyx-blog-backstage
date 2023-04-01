@@ -2,36 +2,34 @@
  * @Author: chenyx
  * @Date: 2023-03-22 23:22:37
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-04-01 14:59:04
+ * @LastEditTime: 2023-04-01 16:50:03
  * @FilePath: /backstage-manage/src/components/Upload/Upload.vue
 -->
 <template>
   <!-- 上传组件 -->
   <el-upload
     class="single-uploader"
-    :show-file-list="false"
+    v-model:file-list="state.fileList"
+    :show-file-list="true"
     :action="state.actionUrl"
     :data="state.postData"
     :on-success="handleAvatarSuccess"
     :before-upload="beforeAvatarUpload"
   >
-    <el-icon v-if="!modelValue" class="single-uploader-icon"><Plus /></el-icon>
-    
+    <el-icon class="single-uploader-icon"><Plus /></el-icon>
   </el-upload>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue';
 import { Plus } from '@element-plus/icons-vue';
-import {
-  ElMessage,
-  ElUpload,
-} from 'element-plus';
+import { ElMessage, ElUpload, UploadUserFile } from 'element-plus';
 import { getToken, getHttp } from '@/api/file';
 
 onMounted(() => {
   getActionUrl();
   getQiniuConfig();
+  // initFileList()
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -40,19 +38,26 @@ const props = defineProps({
   modelValue: {
     type: String,
     default: ''
-  },
-
+  }
 });
 
 const state = reactive({
   actionUrl: '',
-  resultUrl: '',
+  fileList: [] as UploadUserFile[],
+  resultUrl: props.modelValue,
   domain: '',
   postData: {
     token: '',
     key: ''
   }
 });
+
+// function initFileList(v: any) {
+//   state.fileList.push({
+//     name: v,
+//     url: v
+//   });
+// }
 
 function getActionUrl() {
   let a = getHttp();
@@ -68,7 +73,7 @@ function getQiniuConfig() {
         }
       });
     } else {
-        ElMessage.error('上传参数失败！');
+      ElMessage.error('上传参数失败！');
     }
   });
 }
@@ -88,7 +93,7 @@ function handleAvatarSuccess(res: any) {
   //上传成功后在图片框显示图片
   state.resultUrl = state.domain + '/' + res.key;
   emit('update:modelValue', state.resultUrl);
-  ElMessage.success('文件上传成功')
+  ElMessage.success('文件上传成功');
 }
 // function handleError(res) {
 //   //显示错误
