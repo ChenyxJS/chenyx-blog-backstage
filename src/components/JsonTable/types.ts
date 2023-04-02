@@ -2,10 +2,9 @@
  * @Author: chenyx
  * @Date: 2023-03-22 17:00:16
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-22 20:07:30
+ * @LastEditTime: 2023-04-02 16:26:30
  * @FilePath: /backstage-manage/src/components/JsonTable/types.ts
  */
-
 
 /**
  * @description: 数据类型
@@ -25,10 +24,23 @@ export enum FieldType {
   percentage,
   enum
 }
+export enum AlignType {
+  left = 'left',
+  center = 'center',
+  right = 'right'
+}
 
 /**
- * @description: 
- *   在tableHeads的列上加上：（只能选择其中一个，不加则直接显示返回数据）
+ * @description:
+ *   在tableHeads的列上加上：（type只能选择其中一个，不加则直接显示返回数据）
+ * @param prop 字段
+ * @param label 标签名
+ * @param align 对齐==>对齐类型AlignType
+ * @param slot 是否开启插槽
+ * @param type 类型==>数据类型FieldType
+ * @param dateFormat FieldType==>time,日期格式化字符串 default:"yyyy-MM-dd hh:mm:ss"
+ * @param decimal FieldType==>time,小数点保留位数
+ * @param enumData FieldType==>enum,枚举类
  * @return {*}
  */
 export interface TableHeader {
@@ -41,4 +53,11 @@ export interface TableHeader {
   dateFormat?: string;
   decimal?: number;
   enumData?: any;
+  align?: AlignType;
+}
+
+export interface TablePage {
+  current:number;
+  limit: number;
+  total: number;
 }

@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-22 13:24:37
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-04-01 16:58:59
+ * @LastEditTime: 2023-04-02 18:14:32
  * @FilePath: /backstage-manage/src/views/content/article/index.vue
 -->
 <template>
@@ -11,25 +11,21 @@
       <el-form :inline="true">
         <el-form-item label="文章关键词">
           <el-input
-            v-model="state.pageQuery.keywords"
+            v-model="options.param.keywords"
             placeholder="请输入"
             clearable
           />
         </el-form-item>
-
         <el-form-item>
-          <el-button @click="getData">查 询</el-button>
-          <el-button type="primary" @click.native="doAdd()">新 增</el-button>
+          <el-button @click="tableHook.execute()">查 询</el-button>
+          <el-button type="primary" @click.native="add_click()"
+            >新 增</el-button
+          >
         </el-form-item>
       </el-form>
     </json-filter>
 
-    <json-tabele
-      :table-data="state.articleList"
-      :table-heads="state.tableHeads"
-      :page="state.page"
-      @current-change="currentChange"
-    >
+    <json-tabele :hook="tableHook">
       <template #operations="iData">
         <el-button
           type="warning"
@@ -44,19 +40,23 @@
     <edit-panel
       :form="state.entity"
       :is-visible="state.isVisible"
-      @refresh="getData"
+      @refresh="tableHook.execute()"
       @dialogClose="state.isVisible = false"
     ></edit-panel>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue';
+import { reactive } from 'vue';
 import JsonTabele from '@/components/JsonTable/index.vue';
 import JsonFilter from '@/components/JsonFilter/index.vue';
 import EditPanel from './EditDialog.vue';
 import { Article, ArticleQuery, ArticleType } from '@/api/article/types';
 import { TableHeader } from '@/components/JsonTable/types';
+import {
+  useTableHook,
+  JsonTableOptions
+} from '@/components/JsonTable/tableHook';
 import { FieldType } from '@/components/JsonTable/types';
 import { getArticleList, deleteArticle } from '@/api/article/index';
 import { Action, ElMessage, ElMessageBox } from 'element-plus';
@@ -64,18 +64,24 @@ import { Action, ElMessage, ElMessageBox } from 'element-plus';
 // state
 const state = reactive({
   articleList: [] as Array<Article>,
-  pageQuery: {
-    page: 1,
-    limit: 10,
-    keywords: '',
-    articleTagId: 0
-  } as ArticleQuery,
   page: {
     page: 1,
     limit: 10,
     total: 0
   },
-  tableHeads: [
+  entity: {} as Article,
+  isVisible: false
+});
+// hook
+const options = reactive({
+  apiFun: getArticleList,
+  param: {
+    page: 1,
+    limit: 10,
+    keywords: '',
+    articleTagId: 0
+  } as ArticleQuery,
+  tableHeader: [
     {
       prop: 'articleTitle',
       label: '文章标题',
@@ -106,33 +112,11 @@ const state = reactive({
       label: '操作',
       slot: true
     }
-  ] as Array<TableHeader>,
-  entity: {} as Article,
-  isVisible: false
-});
-// hook
-onMounted(() => {
-  getData();
-});
-
-function currentChange(page: any) {
-  state.pageQuery.page = page.page;
-  state.pageQuery.limit = page.limit;
-  getData()
-}
+  ] as TableHeader[]
+}) as JsonTableOptions<Article, ArticleQuery>;
+const tableHook = useTableHook<Article, ArticleQuery>(options);
 
 // function
-/**
- * @description: 获取文章列表数据
- * @return {*}
- */
-function getData() {
-  getArticleList(state.pageQuery).then(({ data }) => {
-    state.articleList = data.root;
-    state.page.total = data.totalSize;
-  });
-}
-
 /**
  * @description: 显示编辑窗口
  * @param {Article} data
@@ -147,7 +131,7 @@ function showEditPanel(data?: Article) {
  * @description: 新增
  * @return {*}
  */
-function doAdd() {
+function add_click() {
   showEditPanel();
 }
 
@@ -164,13 +148,12 @@ function delete_click(data: Article) {
     callback: (action: Action) => {
       if (action === 'confirm') {
         // 弹窗提示是否确认要删除
-        // let id = data.articleId;
         deleteArticle({ id: data.articleId })
           .then(({ data }) => {
             if (data.success) {
               ElMessage.success('删除成功');
               // 刷新列表
-              getData();
+              tableHook.execute();
             }
           })
           .catch(err => {

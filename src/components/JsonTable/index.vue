@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-22 15:25:23
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-04-01 16:54:04
+ * @LastEditTime: 2023-04-02 18:50:41
  * @FilePath: /backstage-manage/src/components/JsonTable/index.vue
 -->
 <template>
@@ -14,20 +14,20 @@
         size="small"
         scrollbar-always-on
         @row-click="rowClick"
-        :data="tableData"
-        :tableHeader="tableHeads"
+        :data="hook.tableData"
+        :tableHeader="hook.tableHeader"
         :border="true"
         style="width: 100%"
         height="600"
       >
         <el-table-column
-          v-for="(col, index) in tableHeads"
+          v-for="(col, index) in hook.tableHeader"
           :key="index"
           :fixed="col.isFixed"
           :prop="col.prop"
           :label="col.label"
           :width="col.width"
-          align="center"
+          :align="col.align ? col.align : AlignType.center"
         >
           <template #default="scope">
             <span v-if="col.type === FieldType.time">{{
@@ -62,15 +62,15 @@
         </el-table-column>
       </el-table>
     </div>
-    <div v-if="page !== null" class="page">
+    <div v-if="hook.page !== null" class="page">
       <el-pagination
         small
         :hide-on-single-page="false"
         prev-text="上一页"
         next-text="下一页"
-        :current-page.sync="page.current"
-        :page-size="page.limit"
-        :total="page.total"
+        :current-page.sync="hook.page.current"
+        :page-size="hook.page.limit"
+        :total="hook.page.total"
         layout="prev, pager, next, total, slot, jumper"
         @current-change="onCurrentPageChange"
       >
@@ -80,41 +80,30 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { TableHeader, FieldType } from './types';
+import { PropType } from 'vue';
+import { JsonTableResult } from './tableHook';
+import { FieldType, AlignType } from './types';
 import { formatDate } from '@/utils/index';
 
-const emit = defineEmits(['current-change'])
-
+// 事件
+const emit = defineEmits(['current-change', 'row-click']);
+// 参数
 const props = defineProps({
-  tableData: {
-    type: Array,
-    default: []
-  },
-  tableHeads: {
-    type: Array<TableHeader>,
-    default: []
-  },
-  page: {
-    type: Object,
-    default: {
-      page: 1,
-      limit: 15,
-      total: 0
-    }
+  hook: {
+    type: Object as PropType<JsonTableResult<any>>,
+    default: () => {}
   }
 });
-
-// state
-const state = reactive({
-  page:props.page
-});
+// create阶段获取Table数据
+props.hook.execute();
 
 // function
-const onCurrentPageChange = () => {
-  emit('current-change')
+const onCurrentPageChange = (current:number) => {
+  props.hook.onCurrentPageChange(current);
 };
-const rowClick = (row: any) => {};
+const rowClick = (row: any) => {
+  emit('row-click', row);
+};
 </script>
 
 <style lang="scss" scoped>
