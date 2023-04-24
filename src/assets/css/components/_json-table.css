@@ -1,0 +1,40 @@
+.el-table {
+  --el-table-border-color: var(--color-slate-300);
+  --el-table-border: 1px solid var(--color-slate-300);
+  --el-table-text-color: var(--color-info);
+  --el-table-header-text-color: var(--color-info);
+  --el-table-row-hover-bg-color: var(--color-slate-300);
+  --el-table-current-row-bg-color: var(--color-slate-300);
+  --el-table-header-bg-color: var(--color-slate-300);
+  --el-table-fixed-box-shadow: var(--color-slate-300);
+  --el-table-bg-color: var(--color-slate-300);
+  --el-table-tr-bg-color: var(--color-slate-300);
+  --el-table-expanded-cell-bg-color: var(--color-slate-300);
+  --el-table-fixed-left-column: inset 0 0 0 0 var(--color-slate-300);
+  --el-table-fixed-right-column: inset 0 0 0 0 var(--color-slate-300);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  height: fit-content;
+  width: 100%;
+  max-width: 100%;
+  font-size: 14px;
+  @apply bg-white dark:bg-darkmode-600 !important;
+
+  .el-table__header-wrapper tr th.el-table-fixed-column--left,
+  .el-table__header-wrapper tr th.el-table-fixed-column--right {
+    @apply bg-white dark:bg-darkmode-600 !important;
+  }
+
+  .el-table__body-wrapper tr td.el-table-fixed-column--left,
+  .el-table__body-wrapper tr td.el-table-fixed-column--right {
+    transition: none;
+    @apply bg-white dark:bg-darkmode-600 !important;
+  }
+  .el-table--enable-row-transition .el-table__body td.el-table__cell {
+    @apply transition-none duration-0 !important;
+  }
+  .el-scrollbar__bar{
+    display: none !important;
+  }
+}
