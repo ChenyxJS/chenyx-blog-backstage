@@ -2,14 +2,13 @@
  * @Author: chenyx
  * @Date: 2023-03-01 13:44:35
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-22 14:00:31
+ * @LastEditTime: 2023-04-26 18:32:22
  * @FilePath: /backstage-manage/src/store/modules/permission.ts
  */
 import { RouteRecordRaw } from 'vue-router';
 import { defineStore } from 'pinia';
-import { constantRoutes } from '@/router';
+import router, { constantRoutes } from '@/router';
 import { store } from '@/store';
-import { listRoutes } from '@/api/menu';
 import { ref } from 'vue';
 
 const modules = import.meta.glob('../../views/**/**.vue');
@@ -67,8 +66,13 @@ export const usePermissionStore = defineStore('permission', () => {
   }
 
   function generateRoutes() {
-    setRoutes([]);
-    return constantRoutes;
+    return new Promise<RouteRecordRaw[]>((resolve, reject) => {
+      setRoutes([]);
+      constantRoutes.forEach((route: RouteRecordRaw) => {
+        router.addRoute(route);
+      });
+      resolve(constantRoutes);
+    });
   }
 
   // function generateRoutes(roles: string[]) {

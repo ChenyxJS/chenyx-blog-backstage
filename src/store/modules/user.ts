@@ -7,8 +7,8 @@ import { resetRouter } from '@/router';
 import { store } from '@/store';
 import { LoginData } from '@/api/auth/types';
 import { ref } from 'vue';
-import { UserInfo } from '@/api/user/types';
-import { AxiosPromise, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
+import { usePermissionStoreHook } from './permission';
 
 export const useUserStore = defineStore('user', () => {
   // state
@@ -22,14 +22,17 @@ export const useUserStore = defineStore('user', () => {
 
   // 登录
   function login(loginData: LoginData) {
+    const permissionStore = usePermissionStoreHook();
     return new Promise<void>((resolve, reject) => {
       loginApi(loginData)
         .then((res: AxiosResponse<BaseApiResult>) => {
           const data = res.data as BaseApiResult;
           const { userId, userNickname, userHeadImg } = data.object;
           setInfo(userNickname, userHeadImg);
+          roles.value = ['1'];
           token.value = userId;
           setToken(userId);
+          permissionStore.generateRoutes();
           resolve();
         })
         .catch(error => {
@@ -40,19 +43,13 @@ export const useUserStore = defineStore('user', () => {
 
   // 获取信息(用户昵称、头像、角色集合、权限集合)
   function getInfo() {
-    return new Promise<UserInfo>((resolve, reject) => {
+    return new Promise<BaseApiResult>((resolve, reject) => {
       getUserInfo()
         .then(({ data }) => {
-          if (!data) {
-            return reject('Verification failed, please Login again.');
-          }
-          if (!data.roles || data.roles.length <= 0) {
-            reject('getUserInfo: roles must be a non-null array!');
-          }
-          nickname.value = data.nickname;
-          avatar.value = data.avatar;
-          roles.value = data.roles;
-          perms.value = data.perms;
+          const { userNickname, userHeadImg } = data.object;
+          nickname.value = userNickname || '';
+          avatar.value = userHeadImg || '';
+          roles.value = ['1'];
           resolve(data);
         })
         .catch(error => {

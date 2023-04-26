@@ -1,3 +1,10 @@
+<!--
+ * @Author: chenyx
+ * @Date: 2023-03-01 13:44:35
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2023-04-26 17:13:28
+ * @FilePath: /backstage-manage/src/layout/components/Sidebar/Logo.vue
+-->
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useSettingsStore } from '@/store/modules/settings';
@@ -25,7 +32,7 @@ const logo = ref<string>(
       to="/"
     >
       <img v-if="settingsStore.sidebarLogo" :src="logo" class="w-5 h-5" />
-      <h1 v-else>vue3-element-admin</h1>
+      <h1 v-else>{{ settingsStore.title }}</h1>
     </router-link>
 
     <router-link
@@ -35,7 +42,9 @@ const logo = ref<string>(
       to="/"
     >
       <img v-if="settingsStore.sidebarLogo" :src="logo" class="w-5 h-5" />
-      <span class="ml-3 text-white text-sm font-bold">vue3-element-admin</span>
+      <span class="ml-3 text-white text-sm font-bold">{{
+        settingsStore.title
+      }}</span>
     </router-link>
   </transition>
 </template>

@@ -2,13 +2,13 @@
  * @Author: chenyx
  * @Date: 2023-03-25 18:10:10
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-25 18:14:11
+ * @LastEditTime: 2023-04-26 16:46:12
  * @FilePath: /backstage-manage/src/components/JsonFilter/index.vue
 -->
 <template>
   <div class="filter">
     <div class="title-div">
-      <span v-if="showTitle">{{ getTitle }}</span>
+      <span v-if="showTitle"></span>
     </div>
     <div>
       <slot></slot>

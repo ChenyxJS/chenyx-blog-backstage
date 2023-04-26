@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-22 15:25:23
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-04-02 18:50:41
+ * @LastEditTime: 2023-04-17 01:58:01
  * @FilePath: /backstage-manage/src/components/JsonTable/index.vue
 -->
 <template>
@@ -68,7 +68,7 @@
         :hide-on-single-page="false"
         prev-text="上一页"
         next-text="下一页"
-        :current-page.sync="hook.page.current"
+        :current-page="hook.page.current"
         :page-size="hook.page.limit"
         :total="hook.page.total"
         layout="prev, pager, next, total, slot, jumper"

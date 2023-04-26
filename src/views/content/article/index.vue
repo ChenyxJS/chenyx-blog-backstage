@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-22 13:24:37
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-04-02 18:14:32
+ * @LastEditTime: 2023-04-26 16:16:38
  * @FilePath: /backstage-manage/src/views/content/article/index.vue
 -->
 <template>
@@ -18,7 +18,7 @@
         </el-form-item>
         <el-form-item>
           <el-button @click="tableHook.execute()">查 询</el-button>
-          <el-button type="primary" @click.native="add_click()"
+          <el-button type="primary" @click="add_click()"
             >新 增</el-button
           >
         </el-form-item>
@@ -63,12 +63,6 @@ import { Action, ElMessage, ElMessageBox } from 'element-plus';
 
 // state
 const state = reactive({
-  articleList: [] as Array<Article>,
-  page: {
-    page: 1,
-    limit: 10,
-    total: 0
-  },
   entity: {} as Article,
   isVisible: false
 });

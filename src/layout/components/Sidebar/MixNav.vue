@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-import { RouterLink, useRoute, useRouter, RouteRecordRaw } from 'vue-router';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 import {
   ElDropdown,
   ElDropdownItem,
@@ -108,15 +108,6 @@ function logout() {
             <router-link to="/">
               <el-dropdown-item>{{ $t('navbar.dashboard') }}</el-dropdown-item>
             </router-link>
-            <a target="_blank" href="https://github.com/hxrui">
-              <el-dropdown-item>Github</el-dropdown-item>
-            </a>
-            <a target="_blank" href="https://gitee.com/haoxr">
-              <el-dropdown-item>{{ $t('navbar.gitee') }}</el-dropdown-item>
-            </a>
-            <a target="_blank" href="https://www.cnblogs.com/haoxianrui/">
-              <el-dropdown-item>{{ $t('navbar.document') }}</el-dropdown-item>
-            </a>
             <el-dropdown-item divided @click="logout">
               {{ $t('navbar.logout') }}
             </el-dropdown-item>

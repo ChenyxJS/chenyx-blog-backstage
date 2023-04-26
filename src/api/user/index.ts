@@ -1,11 +1,11 @@
 import request from '@/utils/request';
 import { AxiosPromise } from 'axios';
-import { UserForm, UserInfo, UserPageResult, UserQuery } from './types';
+import { UserForm, UserPageResult, UserQuery } from './types';
 
 /**
  * 登录成功后获取用户信息（昵称、头像、权限集合和角色集合）
  */
-export function getUserInfo(): AxiosPromise<UserInfo> {
+export function getUserInfo(): AxiosPromise<BaseApiResult> {
   return request({
     url: '/api/admin/userInfo/me',
     method: 'get'

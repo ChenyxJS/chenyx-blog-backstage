@@ -1,9 +1,16 @@
+<!--
+ * @Author: chenyx
+ * @Date: 2023-03-01 13:44:35
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2023-04-26 17:14:45
+ * @FilePath: /backstage-manage/src/layout/components/Sidebar/Link.vue
+-->
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { isExternal } from '@/utils/validate';
 import { useRouter } from 'vue-router';
 
-import { DeviceType, useAppStore } from '@/store/modules/app';
+import { useAppStore } from '@/store/modules/app';
 const appStore = useAppStore();
 
 const sidebar = computed(() => appStore.sidebar);
@@ -29,9 +36,9 @@ function push() {
 
 <template>
   <a v-if="isExternal(to)" :href="to" target="_blank" rel="noopener">
-    <slot />
+    <slot></slot>
   </a>
   <div v-else @click="push">
-    <slot />
+    <slot></slot>
   </div>
 </template>

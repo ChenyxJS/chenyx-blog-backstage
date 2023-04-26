@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-22 15:43:28
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-28 19:51:20
+ * @LastEditTime: 2023-04-26 22:58:14
  * @FilePath: /backstage-manage/src/api/tag/index.ts
  */
 import request from '@/utils/request';
@@ -38,7 +38,7 @@ export function updateTag(data: Tag):AxiosPromise<BaseApiResult>  {
 export function deleteTag(data:object):AxiosPromise<BaseApiResult>  {
   return request({
     url: '/admin/tag/delete',
-    method: 'POST',
-    data
+    method: 'DELETE',
+    params:data
   });
 }

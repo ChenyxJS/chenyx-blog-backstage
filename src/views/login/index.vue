@@ -161,7 +161,6 @@ function handleLogin() {
       userStore
         .login(state.loginData)
         .then(() => {
-          console.log('this login');
           router.push({ path: state.redirect || '/', query: state.otherQuery });
           state.loading = false;
         })

@@ -2,12 +2,12 @@
  * @Author: chenyx
  * @Date: 2023-03-01 13:44:35
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-25 21:45:09
+ * @LastEditTime: 2023-04-26 17:50:00
  * @FilePath: /backstage-manage/src/api/auth/index.ts
  */
 import request from '@/utils/request';
 import { AxiosPromise } from 'axios';
-import { LoginData, TokenResult, VerifyCode } from './types';
+import { LoginData, VerifyCode } from './types';
 
 /**
  *
@@ -27,8 +27,8 @@ export function loginApi(data: LoginData): AxiosPromise<BaseApiResult> {
  */
 export function logoutApi() {
   return request({
-    url: '/api/v1/auth/logout',
-    method: 'delete'
+    url: '/api/admin/logOut',
+    method: 'post'
   });
 }
 

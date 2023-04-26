@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-01 13:44:35
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-03-30 03:18:12
+ * @LastEditTime: 2023-04-26 18:24:55
  * @FilePath: /backstage-manage/src/router/index.ts
  */
 import { createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw } from 'vue-router';
@@ -57,19 +57,19 @@ export const constantRoutes: RouteRecordRaw[] = [
     component: Layout,
     redirect:'/content/article',
     name: 'Content',
-    meta: { title: '内容管理', icon: 'homepage', affix: true },
+    meta: { title: '内容管理', icon: 'homepage' },
     children: [
       {
         path: 'tag',
         component: () => import('@/views/content/tag/index.vue'),
-        name: 'tag',
-        meta: { title: '标签管理', icon: 'homepage', affix: true }
+        name: 'Tag',
+        meta: { title: '标签管理', icon: 'homepage' }
       },
       {
         path: 'article',
         component: () => import('@/views/content/article/index.vue'),
         name: 'Article',
-        meta: { title: '文章管理', icon: 'homepage', affix: true }
+        meta: { title: '文章管理', icon: 'homepage' }
       },
     ]
   },

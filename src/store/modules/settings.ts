@@ -1,3 +1,10 @@
+/*
+ * @Author: chenyx
+ * @Date: 2023-03-01 13:44:35
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2023-04-26 17:12:31
+ * @FilePath: /backstage-manage/src/store/modules/settings.ts
+ */
 import { defineStore } from 'pinia';
 import defaultSettings from '../../settings';
 import { ref } from 'vue';
@@ -22,6 +29,7 @@ export enum LayoutType {
 
 export const useSettingsStore = defineStore('setting', () => {
   // state
+  const title = ref<string>(defaultSettings.title);
   const showSettings = ref<boolean>(defaultSettings.showSettings);
   const tagsView = useStorage<boolean>('tagsView', defaultSettings.tagsView);
   const fixedHeader = ref<boolean>(defaultSettings.fixedHeader);
@@ -54,6 +62,7 @@ export const useSettingsStore = defineStore('setting', () => {
   }
 
   return {
+    title,
     showSettings,
     tagsView,
     fixedHeader,

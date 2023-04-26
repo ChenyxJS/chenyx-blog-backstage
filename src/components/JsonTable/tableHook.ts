@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-04-02 01:03:54
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-04-02 16:40:47
+ * @LastEditTime: 2023-04-26 20:51:14
  * @FilePath: /backstage-manage/src/components/JsonTable/tableHook.ts
  */
 
@@ -19,7 +19,7 @@ export interface JsonTableOptions<T, P extends PageQuery> {
 export interface JsonTableResult<T> {
   tableData: T[];
   tableHeader: TableHeader[];
-  execute: Function;
+  execute: () => void;
   onCurrentPageChange: (page: number) => void;
   page: TablePage;
 }

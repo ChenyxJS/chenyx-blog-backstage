@@ -2,13 +2,12 @@
  * @Author: chenyx
  * @Date: 2023-03-01 13:44:35
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-04-02 00:13:30
+ * @LastEditTime: 2023-04-26 23:02:16
  * @FilePath: /backstage-manage/vite.config.ts
  */
 import vue from '@vitejs/plugin-vue';
 import { ConfigEnv, loadEnv, UserConfig } from 'vite';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
-// @ts-ignore
 import path from 'path';
 
 export default ({ mode }: ConfigEnv): UserConfig => {
@@ -27,15 +26,14 @@ export default ({ mode }: ConfigEnv): UserConfig => {
     ],
     // 本地反向代理解决浏览器跨域限制
     server: {
-      // host: '0.0.0.0',
       port: Number(env.VITE_APP_PORT),
       open: true, // 运行自动打开浏览器
       proxy: {
         [env.VITE_APP_BASE_API]: {
           // 线上API地址
-          target: 'http://www.chenyx.site:8080',
+          // target: 'http://www.chenyx.site:8080',
           // 本地API地址
-          // target: 'http://localhost:8080',
+          target: 'http://localhost:8080',
           changeOrigin: true,
           rewrite: path => path.replace(new RegExp('^' + env.VITE_APP_BASE_API), '')
         }

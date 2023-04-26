@@ -2,7 +2,7 @@
  * @Author: chenyx
  * @Date: 2023-03-22 20:44:05
  * @LastEditors: Do not edit
- * @LastEditTime: 2023-04-01 16:37:48
+ * @LastEditTime: 2023-04-26 20:58:00
  * @FilePath: /backstage-manage/src/views/content/article/EditDialog.vue
 -->
 <template>
@@ -72,24 +72,37 @@
         />
       </el-form-item>
       <el-form-item label="文档">
-        <upload :model-value="state.form.articleUrl" @update:model-value="changeUrl"></upload>
+        <upload
+          :model-value="state.form.articleUrl"
+          @update:model-value="changeUrl"
+        ></upload>
       </el-form-item>
     </el-form>
-    <div slot="footer" class="dialog-footer">
-      <el-button @click="dialogClose">取 消</el-button>
-      <el-button
-        type="primary"
-        @click="submitClick"
-        v-loading="state.submitting"
-        :disabled="state.submitting"
-        >确 定</el-button
-      >
-    </div>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="dialogClose">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="submitClick"
+          v-loading="state.submitting"
+          :disabled="state.submitting"
+          >确 定</el-button
+        >
+      </div>
+    </template>
   </el-dialog>
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, watch, defineEmits, onMounted } from 'vue';
+import {
+  computed,
+  reactive,
+  ref,
+  watch,
+  defineEmits,
+  onMounted,
+  PropType
+} from 'vue';
 import { Article, ArticleType } from '@/api/article/types';
 import { ElMessage, FormInstance, FormRules } from 'element-plus';
 import upload from '@/components/Upload/Upload.vue';
@@ -101,8 +114,8 @@ import { Tag, TagQuery } from '@/api/tag/types';
 // state
 const props = defineProps({
   form: {
-    type: Object,
-    default: {}
+    type: Object as PropType<Article>,
+    default: {} as Article
   },
   isVisible: {
     type: Boolean,
@@ -219,5 +232,3 @@ function submitClick() {
   }
 }
 </script>
-
-<style></style>
